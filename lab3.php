@@ -1,38 +1,48 @@
+<!-- This is the start of PHP code --> 
 <?php
-// Connect to mySQL database 
-/* $connection = mysqli_connect (
-    "localhost", 
-    "root", 
-    "root", 
-    "incremental_account"
-); */ 
-
 // Connect to mySQL database
 $connection = new mysqli("localhost", "root", "root", "incremental_account");
 
-// Error check
+// If we were not able to connect to the database do this 
 if($connection->connect_error){
+
+    // The period does string concatenation (like + in Javascript)
     print("Error is: " . $connection->connect_error); 
+
+    // Stop executing the PHP 
     exit(); // or die() 
 }
 
-// $sql holds the database query 
-$sql = "SELECT count FROM account_information"; 
+// These variables hold SQL quaries 
+    $countHolder = "SELECT count FROM account_information"; 
 
-// $increment = UPDATE account_information SET count = count + 1; 
+    $increment = "UPDATE account_information SET count = count + 1"; 
 
-// If we reached this page by pressing the increment button add 1 
-/* if (isset($_POST["increment"])) {
+// If the button is clicked do this  
+// Does the URL contain an increment parameter 
+if (isset($_GET["increment"])) {
+
+    // Add to the number in the database 
     mysqli_query(
+
+        // Use the Database 
         $connection,
-        "UPDATE account_information
-         SET count = count + 1"
+        
+        // Run this line of code on the database 
+        $increment
     );
-} */ 
 
-    // $result holds the result of this database query 
-$result = mysqli_query($connection, $sql); 
+    // Reload the current page without the previous GET parameters 
+    header("Location: " . $_SERVER["PHP_SELF"]);
 
+    // Stop PHP 
+    exit();
+} 
+
+// $result holds the result of this database query 
+$result = mysqli_query($connection, $countHolder); 
+
+// End of PHP code 
 ?> 
 
 <!DOCTYPE html>
@@ -100,7 +110,7 @@ $result = mysqli_query($connection, $sql);
             top: 230px; 
         }
     </style>
-     <script>
+    <!-- <script>
         var incrementButton; 
         
 
@@ -110,17 +120,11 @@ $result = mysqli_query($connection, $sql);
         }
 
         function addOne(){
-        <?php
-            mysqli_query(
-            $connection,
-            "UPDATE account_information
-            SET count = count + 1"
-            );
-        ?> 
+
         }
 
         window.addEventListener("load", init); 
-     </script>  
+     </script>  --> 
 </head>
 <body>
     <!-- <header>
@@ -139,7 +143,7 @@ $result = mysqli_query($connection, $sql);
         <br>
     </main>
     <!-- action="#" method="post"--> 
-    <form action="#" method="post"> 
+    <form action="#" method="get"> 
         <button id="increment" name="increment">
             + Increment
         </button>
@@ -155,3 +159,4 @@ $result = mysqli_query($connection, $sql);
    <!-- <script src="script.js"></script> --> 
 </body>
 </html>
+
