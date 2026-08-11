@@ -27,7 +27,7 @@ if (isset($_GET["increment"])) {
 
         // Use the Database 
         $connection,
-        
+
         // Run this line of code on the database 
         $increment
     );
@@ -70,7 +70,7 @@ $result = mysqli_query($connection, $countHolder);
             margin: 0; 
             height: 834px; 
             color: #407DFF; 
-            overflow-y: hidden; 
+           overflow-y: hidden; 
         }
 
         span{
@@ -131,7 +131,6 @@ $result = mysqli_query($connection, $countHolder);
         <h1>Welcome to My Website</h1>
 
     </header> --> 
-
     <main>
         <?php
             // Contains one row of the data 
@@ -153,8 +152,8 @@ $result = mysqli_query($connection, $countHolder);
             <p>
                 Incremental
             </p>
+            <!-- <button>Sign Out</button> --> 
     </footer> 
-
     <!-- External JavaScript File (Placed at bottom for optimized page loading) -->
    <!-- <script src="script.js"></script> --> 
 </body>
