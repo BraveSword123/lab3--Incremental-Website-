@@ -70,7 +70,7 @@ $result = mysqli_query($connection, $countHolder);
             margin: 0; 
             height: 834px; 
             color: #407DFF; 
-           overflow-y: hidden; 
+            overflow-y: hidden;  
         }
 
         span{
@@ -100,6 +100,12 @@ $result = mysqli_query($connection, $countHolder);
             transform: scale(0.98);
         }
 
+        #signOutButton{
+            position: relative; 
+            left: 240px; 
+            top: 300px; 
+        }
+
         footer{
             font-size: 50px;
             font-family: 'Brush Script MT', 'Times New Roman', Times, serif;
@@ -107,7 +113,7 @@ $result = mysqli_query($connection, $countHolder);
             justify-self: end;
             margin-left: 10px;
             position: relative; 
-            top: 230px; 
+            top: 200px; 
         }
     </style>
     <!-- <script>
@@ -147,12 +153,17 @@ $result = mysqli_query($connection, $countHolder);
             + Increment
         </button>
     </form>
+    <br>
+    <a href="index.php">
+    <button id="signOutButton">
+        Sign Out
+    </button> 
+    </a>
     <!-- Footer Section -->
    <footer>
             <p>
                 Incremental
             </p>
-            <!-- <button>Sign Out</button> --> 
     </footer> 
     <!-- External JavaScript File (Placed at bottom for optimized page loading) -->
    <!-- <script src="script.js"></script> --> 
