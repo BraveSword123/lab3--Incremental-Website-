@@ -6,11 +6,7 @@
     <title>Lab 3</title>
         <!-- <meta name="description" content="A brief description of your webpage content."> --> 
     <!-- Link to your external stylesheet -->
-    <!-- <link rel="stylesheet" href="style.css"> --> 
-     <?php
-        $user = $_REQUEST["username"]; 
-        $pass = $_REQUEST["password"]; 
-     ?> 
+    <!-- <link rel="stylesheet" href="style.css"> -->  
      <style>
         body{
             padding-right: 100px;
@@ -109,7 +105,7 @@
             left: -10px; 
             top: 360px; 
             transform: translateY(-50%);
-            display: block; *
+            display: block; 
         }
 
         label{

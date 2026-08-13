@@ -1,5 +1,5 @@
-<!-- This is the start of PHP code --> 
 <?php
+//  This is the start of PHP code 
 // Connect to mySQL database
 $connection = new mysqli("localhost", "root", "root", "incremental_account");
 
@@ -70,7 +70,7 @@ $result = mysqli_query($connection, $countHolder);
             margin: 0; 
             height: 834px; 
             color: #407DFF; 
-            overflow-y: hidden;  
+            /*overflow-y: hidden; */ 
         }
 
         span{
@@ -133,6 +133,47 @@ $result = mysqli_query($connection, $countHolder);
      </script>  --> 
 </head>
 <body>
+    <?php
+// Find the value of username and password variables and save it in these variables 
+        $user = $_REQUEST["username"]; 
+        $pass = $_REQUEST["password"];  
+        // This holds an SQL query that reads select everything from the table where the username equals the ?
+        $stmt = $connection->prepare("SELECT * FROM account_information where username = ?"); 
+        // ? is equal to whatever the user input for username 
+        $stmt->bind_param("s", $user); 
+        // Run the SQL Query 
+        $stmt->execute(); 
+        // The result of the SQL query is help in the userinfo_results variable
+        $userinfo_result = $stmt->get_result(); 
+        // If there is at least one user that already has this username
+        if($userinfo_result->num_rows > 0){
+            // Here we should send you back to the previous page
+            // with a message reading that this username is already 
+            // in use 
+            // print("Someone already has this username"); 
+        }
+        else {
+            // print "Userame was not found!";     
+            // Add values to the table that are the question marks
+            $stmt = $connection->prepare("INSERT INTO account_information (username, password)". "VALUES (?, ?)"); 
+            // The question marks are $user and $pass 
+            $stmt->bind_param("ss", $user, $pass); 
+            // Run the query and give the result to this variable 
+            // the result will be true or false meaning 
+            // was the query executed effectively 
+            $resultIns = $stmt->execute(); 
+            // If the username and password were not 
+            // successfully added to the database 
+            /*if($resultIns !== true){
+                print "Insert failed"; 
+            }
+            else {
+                print "User $user added to the database"; 
+            } */ 
+        }
+        $connection->close(); 
+?> 
+
     <!-- <header>
         <h1>Welcome to My Website</h1>
 
@@ -147,7 +188,6 @@ $result = mysqli_query($connection, $countHolder);
         <br>
         <br>
     </main>
-    <!-- action="#" method="post"--> 
     <form action="#" method="get"> 
         <button id="increment" name="increment">
             + Increment
