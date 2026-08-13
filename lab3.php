@@ -169,8 +169,8 @@ $result = mysqli_query($connection, $countHolder);
             }
             else {
                 print "User $user added to the database"; 
-            } */ 
-        }
+            }  */ 
+        } 
         $connection->close(); 
 ?> 
 

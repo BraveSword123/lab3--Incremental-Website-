@@ -58,7 +58,7 @@
             border-radius: 5px;
         }
 
-        button, input[type="submit"] {
+        input[type="submit"] {
             background-color: #CFDEFF;
             border-radius: 5px; 
             border: 0px;  
@@ -69,10 +69,10 @@
             cursor: pointer;
         }
 
-        button:hover {
+        /*button:hover {
              transition: 0.5s;
             background-color: #93B6FF;
-        }
+        } */ 
 
         input[type="submit"]{
             background-color: #93B6FF;
@@ -88,7 +88,7 @@
             height: 20px;
         }
 
-        input[type="submit"]:active, button:active{
+        input[type="submit"]:active{
             transition: 0.5s;
             transform: scale(0.98);
         }
@@ -114,7 +114,14 @@
 
         div header, div main {
             position: relative; 
+        }  
+
+        div main{
             left: -10%; 
+        }
+
+        div header{
+            left: -13%; 
         }
 
         @media screen and (max-width: 1185px){
@@ -128,7 +135,7 @@
         }
 
      </style>
-     <script>
+     <!-- <script>
         var submitButton; 
         var loginButton; 
         var createAccountButton; 
@@ -140,17 +147,17 @@
         }
 
         window.addEventListener("load", init); 
-     </script>
+     </script> --> 
 </head>
 <body>
  <div id="wrapper">
     <header>
         <h1>Incremental</h1>
         <h2>The Counting Website</h2>
-        <div>
-        <button id="login">Login</button>
-        <button id="createAccount">Create Account</button> 
-        </div>
+    <!--<div>
+        <button id="login">Login</button> 
+        <button id="createAccount">Create Account</button>  
+        </div>-->
     </header>
     <br>
     <main>
@@ -166,7 +173,9 @@
             <input type="password" id="password" name="password"> 
             <br> 
             <br> 
-            <input type="submit" value="Submit" id="submit">
+            <input type="submit" value="Login" id="login">
+            <input type="submit" value="Create Account" id="createAccount">
+           <!-- <input type="submit" value="Submit" id="submit"> --> 
         </form>
     </main>
     <img src="Sign In Image.png"> 
