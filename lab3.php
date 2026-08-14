@@ -178,14 +178,11 @@ $result = mysqli_query($connection, $countHolder);
     // Need to also check for password too 
     if(isset($_GET["login"])) {
         // This holds an SQL query that reads select everything from the table where the username equals the ?
-        $stmt = $connection->prepare("SELECT * FROM account_information where username = ?"); 
+        $stmt = $connection->prepare("SELECT * FROM account_information where username = ? AND password = ?"); 
         // ? is equal to whatever the user input for username 
-        $stmt->bind_param("s", $user); 
+        $stmt->bind_param("ss", $user, $pass); 
         // Run the SQL Query 
         $stmt->execute(); 
-
-        
-
         // The result of the SQL query is help in the userinfo_results variable
         $userinfo_result = $stmt->get_result(); 
         // If there is at least one user that already has this username
