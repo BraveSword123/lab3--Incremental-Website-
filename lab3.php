@@ -13,7 +13,7 @@ if($connection->connect_error){
     exit(); // or die() 
 }
 
-// These variables hold SQL quaries 
+// These variables hold SQL queries 
     $countHolder = "SELECT count FROM account_information"; 
 
     $increment = "UPDATE account_information SET count = count + 1"; 
@@ -137,6 +137,7 @@ $result = mysqli_query($connection, $countHolder);
 // Find the value of username and password variables and save it in these variables 
         $user = $_REQUEST["username"]; 
         $pass = $_REQUEST["password"];  
+    if(isset($_GET["createAccount"])){
         // This holds an SQL query that reads select everything from the table where the username equals the ?
         $stmt = $connection->prepare("SELECT * FROM account_information where username = ?"); 
         // ? is equal to whatever the user input for username 
@@ -150,7 +151,9 @@ $result = mysqli_query($connection, $countHolder);
             // Here we should send you back to the previous page
             // with a message reading that this username is already 
             // in use 
+            header("Location: index.php"); 
             // print("Someone already has this username"); 
+            exit; 
         }
         else {
             // print "Userame was not found!";     
@@ -164,13 +167,38 @@ $result = mysqli_query($connection, $countHolder);
             $resultIns = $stmt->execute(); 
             // If the username and password were not 
             // successfully added to the database 
-            /*if($resultIns !== true){
+           /* if($resultIns !== true){
                 print "Insert failed"; 
             }
             else {
                 print "User $user added to the database"; 
             }  */ 
         } 
+    }
+    // Need to also check for password too 
+    if(isset($_GET["login"])) {
+        // This holds an SQL query that reads select everything from the table where the username equals the ?
+        $stmt = $connection->prepare("SELECT * FROM account_information where username = ?"); 
+        // ? is equal to whatever the user input for username 
+        $stmt->bind_param("s", $user); 
+        // Run the SQL Query 
+        $stmt->execute(); 
+
+        
+
+        // The result of the SQL query is help in the userinfo_results variable
+        $userinfo_result = $stmt->get_result(); 
+        // If there is at least one user that already has this username
+        if($userinfo_result->num_rows > 0){
+            // Here we should send you back to the previous page
+            // with a message reading that this username is already 
+            // in use  
+            // print("Someone already has this username"); 
+        }
+        else {
+        header("Location: index.php"); 
+    }
+    }
         $connection->close(); 
 ?> 
 

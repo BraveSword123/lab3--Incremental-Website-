@@ -173,8 +173,8 @@
             <input type="password" id="password" name="password"> 
             <br> 
             <br> 
-            <input type="submit" value="Login" id="login">
-            <input type="submit" value="Create Account" id="createAccount">
+            <input type="submit" value="Login" name="login">
+            <input type="submit" value="Create Account" name="createAccount">
            <!-- <input type="submit" value="Submit" id="submit"> --> 
         </form>
     </main>
