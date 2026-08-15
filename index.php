@@ -3,10 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lab 3</title>
-        <!-- <meta name="description" content="A brief description of your webpage content."> --> 
-    <!-- Link to your external stylesheet -->
-    <!-- <link rel="stylesheet" href="style.css"> -->  
+    <title>Lab 3</title> 
      <style>
         body{
             padding-right: 100px;
@@ -21,21 +18,7 @@
             justify-content: center; 
             position: relative;
             top: 100px; 
-            /* position: relative; */ 
-           /*  position: absolute;*/ 
-            /*z-index: 1; 
-            height: 840px; */ 
-            /* padding-right: 200px;  */ 
-            /*border-left: 2px solid #407DFF; */ 
-            /* width: 300px; */ 
-           /* margin-left: 350px; */ 
         }
-
-        /* header{
-            display: flex; 
-            flex-direction: column;
-            gap: -50px; 
-        } */ 
 
         h1{
             color: #407DFF; 
@@ -64,15 +47,9 @@
             border: 0px;  
             font-size: 22px;
             padding: 18px; 
-            /* width: 160px; */ 
             font-family: 'Times New Roman', Times, serif;
             cursor: pointer;
         }
-
-        /*button:hover {
-             transition: 0.5s;
-            background-color: #93B6FF;
-        } */ 
 
         input[type="submit"]{
             background-color: #93B6FF;
@@ -128,40 +105,18 @@
             img{
                 display: none; 
             }
-
-         /*   #wrapper{
-                left: -50%; 
-            } */ 
         }
 
-     </style>
-     <!-- <script>
-        var submitButton; 
-        var loginButton; 
-        var createAccountButton; 
-
-        function init(){
-            submitButton = document.getElementById("submit"); 
-            loginButton = document.getElementById("login"); 
-            createAccountButton = document.getElementById("createAccount"); 
-        }
-
-        window.addEventListener("load", init); 
-     </script> --> 
+     </style> 
 </head>
 <body>
  <div id="wrapper">
     <header>
         <h1>Incremental</h1>
         <h2>The Counting Website</h2>
-    <!--<div>
-        <button id="login">Login</button> 
-        <button id="createAccount">Create Account</button>  
-        </div>-->
     </header>
     <br>
     <main>
-        <!-- Add action and method attributes -->
         <form action="lab3.php" method="get">
             <label for="username">Username:</label> 
             <br>
@@ -175,16 +130,9 @@
             <br> 
             <input type="submit" value="Login" name="login">
             <input type="submit" value="Create Account" name="createAccount">
-           <!-- <input type="submit" value="Submit" id="submit"> --> 
         </form>
     </main>
     <img src="Sign In Image.png"> 
 </div>
-    <!--<footer>
-        <p>&copy; 2026 My Website</p>
-    </footer> --> 
-
-    <!-- Scripts placed at the bottom for faster loading -->
-    <!-- <script src="script.js"></script> --> 
 </body>
 </html>

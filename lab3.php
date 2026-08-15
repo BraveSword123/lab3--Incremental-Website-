@@ -34,38 +34,6 @@ else{
 }  
 
     print("Welcome Back, ". $_SESSION["user"]); 
-
-// These variables hold SQL queries 
- /*   $countHolder = "SELECT count FROM account_information"; 
-    // SELECT count FROM account_information WHERE where username = ? AND password = ?"; 
-
-    $increment = "UPDATE account_information SET count = count + 1"; 
-
-// If the button is clicked do this  
-// Does the URL contain an increment parameter 
-if (isset($_GET["increment"])) {
-
-    // Add to the number in the database 
-    mysqli_query(
-
-        // Use the Database 
-        $connection,
-
-        // Run this line of code on the database 
-        $increment
-    );
-
-    // Reload the current page without the previous GET parameters 
-    header("Location: " . $_SERVER["PHP_SELF"]);
-
-    // Stop PHP 
-    exit();
-} 
-
-// $result holds the result of this database query 
-$result = mysqli_query($connection, $countHolder); */ 
-
-// End of PHP code 
 ?> 
 
 <!DOCTYPE html>
@@ -74,8 +42,6 @@ $result = mysqli_query($connection, $countHolder); */
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lab 3</title>
-    <!-- <meta name="description" content="A brief description of your webpage content."> --> 
-    <!-- External CSS Stylesheet -->
     <style>
         body{
             background-image: url("Lab 3 Image.png");
@@ -133,37 +99,14 @@ $result = mysqli_query($connection, $countHolder); */
         footer{
             font-size: 50px;
             font-family: 'Brush Script MT', 'Times New Roman', Times, serif;
-            /* align-self: start;
-            justify-self: end; 
-            margin-left: 10px;
-            position: relative; 
-            top: 170px; */ 
             position: fixed; 
             left: 20px; 
             bottom: -40px; 
         }
     </style>
-    <!-- <script>
-        var incrementButton; 
-        
-
-        function init(){
-            incrementButton = document.getElementById("increment"); 
-            incrementButton.addEventListener("click", addOne)
-        }
-
-        function addOne(){
-
-        }
-
-        window.addEventListener("load", init); 
-     </script>  --> 
 </head>
 <body>
     <?php
-// Find the value of username and password variables and save it in these variables 
-        // $user = $_REQUEST["username"]; 
-        // $pass = $_REQUEST["password"];  
     if(isset($_GET["createAccount"])){
         // This holds an SQL query that reads select everything from the table where the username equals the ?
         $stmt = $connection->prepare("SELECT * FROM account_information where username = ?"); 
@@ -192,14 +135,6 @@ $result = mysqli_query($connection, $countHolder); */
             // the result will be true or false meaning 
             // was the query executed effectively 
             $resultIns = $stmt->execute(); 
-            // If the username and password were not 
-            // successfully added to the database 
-           /* if($resultIns !== true){
-                print "Insert failed"; 
-            }
-            else {
-                print "User $user added to the database"; 
-            }  */ 
         } 
     }
     // Need to also check for password too 
@@ -217,15 +152,12 @@ $result = mysqli_query($connection, $countHolder); */
             // Here we should send you back to the previous page
             // with a message reading that this username is already 
             // in use  
-            // print("Someone already has this username"); 
         }
         else {
         header("Location: index.php"); 
     }
     }
 
-    // $_SESSION["user"] = $user;
-    // $session_user = $_SESSION["user"]; 
     $increment_stmt = $connection->prepare("UPDATE account_information SET count = count + 1 WHERE username = ?"); 
     $increment_stmt->bind_param("s", $session_user); 
 
@@ -234,16 +166,11 @@ $result = mysqli_query($connection, $countHolder); */
     if(isset($_GET["increment"])){
 
         $increment_stmt->execute(); 
-        // $increment_result = $increment_stmt->get_result(); 
 
         // Server is an array, so we need to use square brackets 
         header("Location: ". $_SERVER["PHP_SELF"]); 
-
-        // exit(); 
     } 
 
-    // $increment_stmt->execute(); 
-    // $increment_result = $increment_stmt->get_result(); 
     $num_stmt = $connection->prepare("SELECT count FROM account_information WHERE username = ?"); 
     $num_stmt->bind_param("s", $session_user); 
     $num_stmt->execute(); 
@@ -256,10 +183,6 @@ $result = mysqli_query($connection, $countHolder); */
     }
 ?> 
 
-    <!-- <header>
-        <h1>Welcome to My Website</h1>
-
-    </header> --> 
     <main>
         <?php
         $account_information = mysqli_fetch_assoc($num_result); 
@@ -269,17 +192,11 @@ $result = mysqli_query($connection, $countHolder); */
         <br>
     </main>
     <form action="#" method="get"> 
-        <!--<button id="increment" name="increment">
-            + Increment
-        </button> --> 
         <input id="increment" name="increment" value="+ Increment" type="submit"> 
     </form>
     <br>
     <form>
     <a href="index.php">
-    <!-- <button id="signOutButton">
-        Sign Out
-    </button> --> 
     <input type="submit" value="Sign Out" id="signOutButton" name="signOut"> 
     </a>
     </form>
@@ -289,16 +206,6 @@ $result = mysqli_query($connection, $countHolder); */
                 Incremental
             </p>
     </footer> 
-    <!-- External JavaScript File (Placed at bottom for optimized page loading) -->
-   <!-- <script src="script.js"></script> --> 
 </body>
 </html>
-
-<!--- When you click the button the username 
-    Is removed from the URL, so it no longer knows 
-    Which user is logged in 
-    
-    Ok, I have an idea what if I store the username in the 
-    session and save it so we can keep it even 
-    if the page reloads and destory it once signed out --> 
 
