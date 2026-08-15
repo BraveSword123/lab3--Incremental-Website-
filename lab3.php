@@ -91,7 +91,7 @@ $result = mysqli_query($connection, $countHolder); */
             justify-content: center;
             border: 15px solid #93B6FF; 
             margin: 0; 
-            height: 834px; 
+            height: 835px; 
             color: #407DFF; 
             overflow: hidden; 
         }
@@ -113,30 +113,34 @@ $result = mysqli_query($connection, $countHolder); */
             border-radius: 10px;
         }
 
-        button:hover{
+        input[type="submit"]:hover{
             transition: 0.5s;
             background-color: #b1caff;
         }
 
-        button:active{
+       input[type="submit"]:active{
             transition: 0.5s;
             transform: scale(0.98);
         }
 
         #signOutButton{
-            position: relative; 
-            left: 240px; 
-            top: 300px; 
+            align-self: flex-end;
+            position: fixed; 
+            right: 20px; 
+            bottom: 20px; 
         }
 
         footer{
             font-size: 50px;
             font-family: 'Brush Script MT', 'Times New Roman', Times, serif;
-            align-self: start;
-            justify-self: end;
+            /* align-self: start;
+            justify-self: end; 
             margin-left: 10px;
             position: relative; 
-            top: 200px; 
+            top: 170px; */ 
+            position: fixed; 
+            left: 20px; 
+            bottom: -40px; 
         }
     </style>
     <!-- <script>
