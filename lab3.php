@@ -14,7 +14,8 @@ if($connection->connect_error){
 }
 
 // These variables hold SQL queries 
-    $countHolder = "SELECT count FROM account_information"; 
+ /*   $countHolder = "SELECT count FROM account_information"; 
+    // SELECT count FROM account_information WHERE where username = ? AND password = ?"; 
 
     $increment = "UPDATE account_information SET count = count + 1"; 
 
@@ -40,7 +41,7 @@ if (isset($_GET["increment"])) {
 } 
 
 // $result holds the result of this database query 
-$result = mysqli_query($connection, $countHolder); 
+$result = mysqli_query($connection, $countHolder); */ 
 
 // End of PHP code 
 ?> 
@@ -70,7 +71,7 @@ $result = mysqli_query($connection, $countHolder);
             margin: 0; 
             height: 834px; 
             color: #407DFF; 
-            /*overflow-y: hidden; */ 
+            overflow-y: hidden; 
         }
 
         span{
@@ -196,7 +197,16 @@ $result = mysqli_query($connection, $countHolder);
         header("Location: index.php"); 
     }
     }
-        $connection->close(); 
+
+    $num_stmt = $connection->prepare("SELECT count FROM account_information WHERE username = ?"); 
+    $num_stmt->bind_param("s", $user); 
+    $num_stmt->execute(); 
+    $num_result = $num_stmt->get_result(); 
+    $increment_stmt = $connection->prepare("UPDATE account_information SET count = count + 1 WHERE username = ?"); 
+    $increment_stmt->bind_param("s", $user); 
+    $increment_stmt->execute(); 
+    $increment_result = $increment_stmt->get_result(); 
+    $connection->close(); 
 ?> 
 
     <!-- <header>
@@ -206,9 +216,10 @@ $result = mysqli_query($connection, $countHolder);
     <main>
         <?php
             // Contains one row of the data 
-            $account_information = mysqli_fetch_assoc($result); 
+            /* $account_information = mysqli_fetch_assoc($result); 
             // Look inside the row. Find the count value and display it
             echo "<span>" . $account_information["count"] . "</span>";
+            // This needs to be changed to so its only getting one value  */ 
         ?>
         <br>
         <br>
