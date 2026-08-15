@@ -13,6 +13,28 @@ if($connection->connect_error){
     exit(); // or die() 
 }
 
+// Start the session 
+session_start(); 
+
+// If the username doesnt exist make this equal to null 
+$user = $_REQUEST["username"] ?? null; 
+$pass = $_REQUEST["password"] ?? null; 
+
+// Check if the username has already been saved 
+ if(isset($_SESSION["user"])){
+ // If it has save that value in a variable 
+    $session_user = $_SESSION["user"]; 
+    print("Current User: ". $_SESSION["user"]); 
+}
+// If the username hasn't been saved 
+else{
+    // Save the usewrname in theb session  
+    $_SESSION["user"] = $user;
+    // Save the username in a variable 
+    $session_user = $_SESSION["user"];  
+    print("New User: ". $_SESSION["user"]); 
+}  
+
 // These variables hold SQL queries 
  /*   $countHolder = "SELECT count FROM account_information"; 
     // SELECT count FROM account_information WHERE where username = ? AND password = ?"; 
@@ -71,7 +93,7 @@ $result = mysqli_query($connection, $countHolder); */
             margin: 0; 
             height: 834px; 
             color: #407DFF; 
-            overflow-y: hidden; 
+            overflow: hidden; 
         }
 
         span{
@@ -136,13 +158,13 @@ $result = mysqli_query($connection, $countHolder); */
 <body>
     <?php
 // Find the value of username and password variables and save it in these variables 
-        $user = $_REQUEST["username"]; 
-        $pass = $_REQUEST["password"];  
+        // $user = $_REQUEST["username"]; 
+        // $pass = $_REQUEST["password"];  
     if(isset($_GET["createAccount"])){
         // This holds an SQL query that reads select everything from the table where the username equals the ?
         $stmt = $connection->prepare("SELECT * FROM account_information where username = ?"); 
         // ? is equal to whatever the user input for username 
-        $stmt->bind_param("s", $user); 
+        $stmt->bind_param("s", $session_user); 
         // Run the SQL Query 
         $stmt->execute(); 
         // The result of the SQL query is help in the userinfo_results variable
@@ -161,7 +183,7 @@ $result = mysqli_query($connection, $countHolder); */
             // Add values to the table that are the question marks
             $stmt = $connection->prepare("INSERT INTO account_information (username, password)". "VALUES (?, ?)"); 
             // The question marks are $user and $pass 
-            $stmt->bind_param("ss", $user, $pass); 
+            $stmt->bind_param("ss", $session_user, $pass); 
             // Run the query and give the result to this variable 
             // the result will be true or false meaning 
             // was the query executed effectively 
@@ -181,7 +203,7 @@ $result = mysqli_query($connection, $countHolder); */
         // This holds an SQL query that reads select everything from the table where the username equals the ?
         $stmt = $connection->prepare("SELECT * FROM account_information where username = ? AND password = ?"); 
         // ? is equal to whatever the user input for username 
-        $stmt->bind_param("ss", $user, $pass); 
+        $stmt->bind_param("ss", $session_user, $pass); 
         // Run the SQL Query 
         $stmt->execute(); 
         // The result of the SQL query is help in the userinfo_results variable
@@ -198,14 +220,29 @@ $result = mysqli_query($connection, $countHolder); */
     }
     }
 
+    // $_SESSION["user"] = $user;
+    // $session_user = $_SESSION["user"]; 
+    $increment_stmt = $connection->prepare("UPDATE account_information SET count = count + 1 WHERE username = ?"); 
+    $increment_stmt->bind_param("s", $session_user); 
+
+    // This says if increment=# exist in the URL which isnt what I want
+    // I onlt want this to happen when you click the button 
+    if(isset($_GET["increment"])){
+
+        $increment_stmt->execute(); 
+        // $increment_result = $increment_stmt->get_result(); 
+
+        header("Location: ". $_SERVER["PHP_SELF"]); 
+
+        // exit(); 
+    } 
+
+    // $increment_stmt->execute(); 
+    // $increment_result = $increment_stmt->get_result(); 
     $num_stmt = $connection->prepare("SELECT count FROM account_information WHERE username = ?"); 
-    $num_stmt->bind_param("s", $user); 
+    $num_stmt->bind_param("s", $session_user); 
     $num_stmt->execute(); 
     $num_result = $num_stmt->get_result(); 
-    $increment_stmt = $connection->prepare("UPDATE account_information SET count = count + 1 WHERE username = ?"); 
-    $increment_stmt->bind_param("s", $user); 
-    $increment_stmt->execute(); 
-    $increment_result = $increment_stmt->get_result(); 
     $connection->close(); 
 ?> 
 
@@ -215,26 +252,26 @@ $result = mysqli_query($connection, $countHolder); */
     </header> --> 
     <main>
         <?php
-            // Contains one row of the data 
-            /* $account_information = mysqli_fetch_assoc($result); 
-            // Look inside the row. Find the count value and display it
-            echo "<span>" . $account_information["count"] . "</span>";
-            // This needs to be changed to so its only getting one value  */ 
-        ?>
+        $account_information = mysqli_fetch_assoc($num_result); 
+        echo "<span>". $account_information["count"]. "</span>"; 
+        ?> 
         <br>
         <br>
     </main>
     <form action="#" method="get"> 
         <button id="increment" name="increment">
             + Increment
-        </button>
+        </button> 
     </form>
     <br>
+    <form>
     <a href="index.php">
-    <button id="signOutButton">
+    <!-- <button id="signOutButton">
         Sign Out
-    </button> 
+    </button> --> 
+    <input type="submit" value="Sign Out" id="signOutButton"> 
     </a>
+    </form>
     <!-- Footer Section -->
    <footer>
             <p>
@@ -245,4 +282,12 @@ $result = mysqli_query($connection, $countHolder); */
    <!-- <script src="script.js"></script> --> 
 </body>
 </html>
+
+<!--- When you click the button the username 
+    Is removed from the URL, so it no longer knows 
+    Which user is logged in 
+    
+    Ok, I have an idea what if I store the username in the 
+    session and save it so we can keep it even 
+    if the page reloads and destory it once signed out --> 
 
