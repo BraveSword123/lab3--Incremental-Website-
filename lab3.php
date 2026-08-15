@@ -24,7 +24,6 @@ $pass = $_REQUEST["password"] ?? null;
  if(isset($_SESSION["user"])){
  // If it has save that value in a variable 
     $session_user = $_SESSION["user"]; 
-    print("Current User: ". $_SESSION["user"]); 
 }
 // If the username hasn't been saved 
 else{
@@ -32,8 +31,9 @@ else{
     $_SESSION["user"] = $user;
     // Save the username in a variable 
     $session_user = $_SESSION["user"];  
-    print("New User: ". $_SESSION["user"]); 
 }  
+
+    print("Welcome Back, ". $_SESSION["user"]); 
 
 // These variables hold SQL queries 
  /*   $countHolder = "SELECT count FROM account_information"; 
@@ -101,7 +101,7 @@ $result = mysqli_query($connection, $countHolder); */
             margin-bottom: 0; 
         }
 
-        button{
+        input[type="submit"]{
             margin-top: -10px; 
             height: 70px; 
             width: 200px; 
@@ -232,6 +232,7 @@ $result = mysqli_query($connection, $countHolder); */
         $increment_stmt->execute(); 
         // $increment_result = $increment_stmt->get_result(); 
 
+        // Server is an array, so we need to use square brackets 
         header("Location: ". $_SERVER["PHP_SELF"]); 
 
         // exit(); 
@@ -244,6 +245,11 @@ $result = mysqli_query($connection, $countHolder); */
     $num_stmt->execute(); 
     $num_result = $num_stmt->get_result(); 
     $connection->close(); 
+
+    if(isset($_GET["signOut"])){
+        session_destroy();
+        header("Location: index.php");  
+    }
 ?> 
 
     <!-- <header>
@@ -259,9 +265,10 @@ $result = mysqli_query($connection, $countHolder); */
         <br>
     </main>
     <form action="#" method="get"> 
-        <button id="increment" name="increment">
+        <!--<button id="increment" name="increment">
             + Increment
-        </button> 
+        </button> --> 
+        <input id="increment" name="increment" value="+ Increment" type="submit"> 
     </form>
     <br>
     <form>
@@ -269,7 +276,7 @@ $result = mysqli_query($connection, $countHolder); */
     <!-- <button id="signOutButton">
         Sign Out
     </button> --> 
-    <input type="submit" value="Sign Out" id="signOutButton"> 
+    <input type="submit" value="Sign Out" id="signOutButton" name="signOut"> 
     </a>
     </form>
     <!-- Footer Section -->
