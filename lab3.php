@@ -119,9 +119,7 @@
             $userinfo_result = $stmt->get_result(); 
         // If there is at least one user that already has this username
             if($userinfo_result->num_rows > 0){
-            // Here we should send you back to the previous page
-            // with a message reading that this username is already 
-            // in use 
+            // Here we will send the user back to the previous page
                 header("Location: index.php"); 
                 exit; 
             }
@@ -134,7 +132,6 @@
                 $resultIns = $stmt->execute(); 
             } 
         }
-        // Need to also check for password too 
             if(isset($_GET["login"])) {
         // This holds an SQL query that reads select everything from the table where the username equals the ?
             $stmt = $connection->prepare("SELECT * FROM user where username = ? AND password = ?"); 
@@ -146,23 +143,22 @@
             $userinfo_result = $stmt->get_result(); 
         // If there is at least one user that already has this username
             if($userinfo_result->num_rows > 0){
-            // Here we should send you back to the previous page
-            // with a message reading that this username is already 
-            // in use  
+            // Here we will send the user back to the previous page 
                 }
                 else {
                     header("Location: index.php"); 
                 }
             }
+        // This variable holds a SQL query that will update the count by one for a username = ? 
+        $increment_stmt = $connection->prepare("UPDATE user SET count = count + 1 WHERE username = ?"); 
+        // ? is equal to the username of the user 
+        $increment_stmt->bind_param("s", $session_user); 
 
-            $increment_stmt = $connection->prepare("UPDATE user SET count = count + 1 WHERE username = ?"); 
-            $increment_stmt->bind_param("s", $session_user); 
-
-        // This says if increment=# exist in the URL which isnt what I want
-        // I onlt want this to happen when you click the button 
+        // if increment exist in the URL
             if(isset($_GET["increment"])){
                 $increment_stmt->execute(); 
             // Server is an array, so we need to use square brackets 
+            // Send the browser back to this page 
                 header("Location: ". $_SERVER["PHP_SELF"]); 
             } 
 
