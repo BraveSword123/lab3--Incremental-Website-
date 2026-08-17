@@ -109,7 +109,7 @@ else{
     <?php
     if(isset($_GET["createAccount"])){
         // This holds an SQL query that reads select everything from the table where the username equals the ?
-        $stmt = $connection->prepare("SELECT * FROM account_information where username = ?"); 
+        $stmt = $connection->prepare("SELECT * FROM user where username = ?"); 
         // ? is equal to whatever the user input for username 
         $stmt->bind_param("s", $session_user); 
         // Run the SQL Query 
@@ -128,7 +128,7 @@ else{
         else {
             // print "Userame was not found!";     
             // Add values to the table that are the question marks
-            $stmt = $connection->prepare("INSERT INTO account_information (username, password)". "VALUES (?, ?)"); 
+            $stmt = $connection->prepare("INSERT INTO user (username, password)". "VALUES (?, ?)"); 
             // The question marks are $user and $pass 
             $stmt->bind_param("ss", $session_user, $pass); 
             // Run the query and give the result to this variable 
@@ -140,7 +140,7 @@ else{
     // Need to also check for password too 
     if(isset($_GET["login"])) {
         // This holds an SQL query that reads select everything from the table where the username equals the ?
-        $stmt = $connection->prepare("SELECT * FROM account_information where username = ? AND password = ?"); 
+        $stmt = $connection->prepare("SELECT * FROM user where username = ? AND password = ?"); 
         // ? is equal to whatever the user input for username 
         $stmt->bind_param("ss", $session_user, $pass); 
         // Run the SQL Query 
@@ -158,7 +158,7 @@ else{
     }
     }
 
-    $increment_stmt = $connection->prepare("UPDATE account_information SET count = count + 1 WHERE username = ?"); 
+    $increment_stmt = $connection->prepare("UPDATE user SET count = count + 1 WHERE username = ?"); 
     $increment_stmt->bind_param("s", $session_user); 
 
     // This says if increment=# exist in the URL which isnt what I want
@@ -171,7 +171,7 @@ else{
         header("Location: ". $_SERVER["PHP_SELF"]); 
     } 
 
-    $num_stmt = $connection->prepare("SELECT count FROM account_information WHERE username = ?"); 
+    $num_stmt = $connection->prepare("SELECT count FROM user WHERE username = ?"); 
     $num_stmt->bind_param("s", $session_user); 
     $num_stmt->execute(); 
     $num_result = $num_stmt->get_result(); 
@@ -185,8 +185,8 @@ else{
 
     <main>
         <?php
-        $account_information = mysqli_fetch_assoc($num_result); 
-        echo "<span>". $account_information["count"]. "</span>"; 
+        $user = mysqli_fetch_assoc($num_result); 
+        echo "<span>". $user["count"]. "</span>"; 
         ?> 
         <br>
         <br>
@@ -200,7 +200,6 @@ else{
     <input type="submit" value="Sign Out" id="signOutButton" name="signOut"> 
     </a>
     </form>
-    <!-- Footer Section -->
    <footer>
             <p>
                 Incremental
