@@ -27,7 +27,7 @@
     }
 // If the username hasn't been saved 
     else{
-    // Save the usewrname in theb session  
+    // Save the usewrname in the session  
         $_SESSION["user"] = $user;
     // Save the username in a variable 
         $session_user = $_SESSION["user"];  
@@ -57,9 +57,10 @@
                 justify-content: center;
                 border: 15px solid #93B6FF; 
                 margin: 0; 
-                height: 835px; 
                 color: #407DFF; 
                 overflow: hidden; 
+                position: fixed; 
+                inset: 0; 
             }
 
             span{
